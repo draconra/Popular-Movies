@@ -3,6 +3,7 @@ package com.udacity.movie.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.udacity.movie.R;
 import com.udacity.movie.api.ApiMovie;
 import com.udacity.movie.model.MovieObject;
+import com.udacity.movie.util.helper.ImageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviesViewHo
         movies = new ArrayList<>();
     }
 
+
+    public List<MovieObject> getData() {
+        return this.movies;
+    }
+
+
     public void setData(List<MovieObject> movies) {
         this.movies.clear();
         this.movies.addAll(movies);
@@ -46,12 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviesViewHo
 
     @Override
     public void onBindViewHolder(final MoviesViewHolder holder, int position) {
-        Glide.with(context)
-                .load(ApiMovie.THUMBNAIL + movies.get(position).getPosterPath())
-                .dontAnimate()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(holder.ivMoviePoster);
-
+        ImageHelper.setImageResource(context, ApiMovie.THUMBNAIL + movies.get(position).getPosterPath(), holder.ivMoviePoster);
     }
 
     public void setOnItemClickListener(MovieAdapterOnClickHandler listener) {

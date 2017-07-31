@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Movie</string>
     <string name="popular_movies">Most Popular</string>
+    <string name="favorite_movies">Favorite</string>
     <string name="top_rated_movies">Highest Rated</string>
     <string name="detail_poster_description">Detail Poster Thumbnail</string>
     <string name="detail_title">Title Movies</string>
@@ -11,4 +12,14 @@
     <string name="detail_release_title">Release Date</string>
     <string name="detail_release_default">Release on July 24th, 2017</string>
     <string name="network_error">Network problem, Please check your connection</string>
+    <string name="detail_review_title">Movie Review :</string>
+    <string name="detail_trailer_title">Movie Trailers :</string>
+    <string name="set_favorite_star">Set as Favorite</string>
+    <string name="share_movie">Share Movie</string>
+    <string name="youtube_video">YouTube</string>
+    <string name="video_play_error">This video can\'t be played</string>
+    <string name="toast_favorite_success">You favorite this movie.</string>
+    <string name="toast_favorite_failed">Failed to favorite this movie.</string>
+    <string name="toast_unfavorite_success">You unfavorite this movie.</string>
+    <string name="toast_unfavorite_failed">Failed to unfavorite this movie.</string>
 </resources>

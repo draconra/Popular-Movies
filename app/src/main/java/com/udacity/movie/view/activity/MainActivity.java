@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.udacity.movie.AppController;
 import com.udacity.movie.R;
 import com.udacity.movie.controller.ControllerFactory;
 import com.udacity.movie.controller.HomeController;
@@ -19,17 +20,20 @@ import com.udacity.movie.event.NetworkErrorEvent;
 import com.udacity.movie.event.home.HomeEvent;
 import com.udacity.movie.model.MovieObject;
 import com.udacity.movie.util.Constant;
+import com.udacity.movie.util.helper.ImageHelper;
 import com.udacity.movie.view.adapter.MovieAdapter;
 import com.udacity.movie.view.core.BaseActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity implements MovieAdapter.MovieAdapterOnClickHandler {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -61,12 +65,21 @@ public class MainActivity extends BaseActivity implements MovieAdapter.MovieAdap
 
     private void initView() {
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, ImageHelper.getColumnsCount(this));
         rvMovie.setLayoutManager(layoutManager);
         rvMovie.setHasFixedSize(true);
 
         mAdapter = new MovieAdapter(this);
         rvMovie.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new MovieAdapter.MovieAdapterOnClickHandler() {
+            @Override
+            public void onClick(MovieObject selectedMovie) {
+                Intent intent = new Intent(getBaseContext(), DetailActivity.class);
+                intent.putExtra(Constant.MOVIE_KEY, selectedMovie);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -77,6 +90,9 @@ public class MainActivity extends BaseActivity implements MovieAdapter.MovieAdap
                 break;
             case R.id.action_top_rated:
                 setTopRatedMovies();
+                break;
+            case R.id.action_favorite:
+                setFavoriteMovies();
                 break;
             default:
                 break;
@@ -93,6 +109,12 @@ public class MainActivity extends BaseActivity implements MovieAdapter.MovieAdap
     private void setPopularMovies() {
         getSupportActionBar().setTitle(getString(R.string.popular_movies));
         controller.getPopularMovies();
+        pr.setVisibility(View.VISIBLE);
+    }
+
+    private void setFavoriteMovies() {
+        getSupportActionBar().setTitle(getString(R.string.favorite_movies));
+        controller.getFavoriteMovies(this);
         pr.setVisibility(View.VISIBLE);
     }
 
@@ -127,9 +149,13 @@ public class MainActivity extends BaseActivity implements MovieAdapter.MovieAdap
     }
 
     @Override
-    public void onClick(MovieObject selectedMovie) {
-        Intent intent = new Intent(getBaseContext(), DetailActivity.class);
-        intent.putExtra(Constant.MOVIE_KEY, selectedMovie);
-        startActivity(intent);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        List<MovieObject> movieList = mAdapter.getData();
+        String movieListJson = AppController.getInstance().gson().toJson(movieList);
+        outState.putString(Constant.EXTRA_MOVIE_LIST, movieListJson);
+        outState.putInt(Constant.EXTRA_PAGE, 1);
+        outState.putString(Constant.EXTRA_TITLE, getTitle().toString());
     }
 }

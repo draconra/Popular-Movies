@@ -3,13 +3,13 @@
     package="com.udacity.movie">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".AppController"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
@@ -25,8 +25,13 @@
             android:parentActivityName=".view.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activity.MainActivity"/>
+                android:value=".view.activity.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".util.db.MovieContentProvider"
+            android:authorities="com.udacity.movie"
+            android:exported="false" />
     </application>
 
 </manifest>

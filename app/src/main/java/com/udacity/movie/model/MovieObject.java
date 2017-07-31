@@ -15,10 +15,10 @@ public class MovieObject implements Parcelable
     private Integer voteCount;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("vote_average")
     @Expose
-    private float voteAverage;
+    private Double voteAverage;
     @SerializedName("title")
     @Expose
     private String title;
@@ -43,8 +43,8 @@ public class MovieObject implements Parcelable
         public MovieObject createFromParcel(Parcel in) {
             MovieObject instance = new MovieObject();
             instance.voteCount = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.voteAverage = ((float) in.readValue((Integer.class.getClassLoader())));
+            instance.id = ((String) in.readValue((Integer.class.getClassLoader())));
+            instance.voteAverage = ((Double) in.readValue((Integer.class.getClassLoader())));
             instance.title = ((String) in.readValue((String.class.getClassLoader())));
             instance.popularity = ((Double) in.readValue((Double.class.getClassLoader())));
             instance.posterPath = ((String) in.readValue((String.class.getClassLoader())));
@@ -68,19 +68,19 @@ public class MovieObject implements Parcelable
         this.voteCount = voteCount;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public float getVoteAverage() {
+    public Double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Integer voteAverage) {
+    public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
 
