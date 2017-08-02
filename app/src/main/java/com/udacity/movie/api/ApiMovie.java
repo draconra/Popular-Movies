@@ -23,8 +23,8 @@ public interface ApiMovie {
     Call<MovieResp> getMovies(@Path("type") String type, @Query("api_key") String apiKey);
 
     @GET("movie/{id}/videos")
-    Call<VideoResp> getTrailers(@Path("id") String movieId, @Query("api_key") String apiKey, @Query("language") String language);
+    Call<VideoResp> getTrailers(@Path("id") String movieId, @Query("api_key") String apiKey);
 
     @GET("movie/{id}/reviews")
-    Call<ReviewResp> getReviews(@Path("id") String movieId, @Query("api_key") String apiKey, @Query("language") String language, @Query("page") int page);
+    Call<ReviewResp> getReviews(@Path("id") String movieId, @Query("api_key") String apiKey);
 }

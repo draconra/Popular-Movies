@@ -53,15 +53,17 @@ public class HomeController extends BaseController {
     }
 
     public void getPopularMovies() {
+        movieListTitle = Constant.MOVIE_LIST_TITLE.POPULAR;
         getMovies(0);
     }
 
     public void getTopRatedMovies() {
+        movieListTitle = Constant.MOVIE_LIST_TITLE.TOP_RATED;
         getMovies(1);
     }
 
     public void getMovieTrailers(String movieId) {
-        Call<VideoResp> videoResponseCall = AppController.getInstance().getApiService().getTrailers(movieId, ApiMovie.API_KEY, null);
+        Call<VideoResp> videoResponseCall = AppController.getInstance().getApiService().getTrailers(movieId, ApiMovie.API_KEY);
         videoResponseCall.enqueue(new Callback<VideoResp>() {
             @Override
             public void onResponse(Call<VideoResp> call, Response<VideoResp> response) {
@@ -81,7 +83,7 @@ public class HomeController extends BaseController {
     }
 
     public void getMovieReviews(String movieId, int page) {
-        Call<ReviewResp> reviewResponseCall = AppController.getInstance().getApiService().getReviews(movieId, ApiMovie.API_KEY, null, page);
+        Call<ReviewResp> reviewResponseCall = AppController.getInstance().getApiService().getReviews(movieId, ApiMovie.API_KEY);
         reviewResponseCall.enqueue(new Callback<ReviewResp>() {
             @Override
             public void onResponse(Call<ReviewResp> call, Response<ReviewResp> response) {

@@ -27,6 +27,7 @@ import com.udacity.movie.view.core.BaseActivity;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,6 +47,7 @@ public class MainActivity extends BaseActivity {
 
     private HomeController controller;
     private MovieAdapter mAdapter;
+    private Constant.MOVIE_LIST_TITLE movieListTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,14 @@ public class MainActivity extends BaseActivity {
         controller = ControllerFactory.homeController();
 
         initView();
+
+        if (savedInstanceState != null) {
+            List<MovieObject> movieList = Arrays.asList(AppController.getInstance().gson().fromJson(savedInstanceState.getString(Constant.EXTRA_MOVIE_LIST), MovieObject[].class));
+            mAdapter.setData(movieList);
+
+            getSupportActionBar().setTitle(savedInstanceState.getString(Constant.EXTRA_TITLE));
+            return;
+        }
 
         setPopularMovies();
     }
@@ -102,18 +112,21 @@ public class MainActivity extends BaseActivity {
 
     private void setTopRatedMovies() {
         getSupportActionBar().setTitle(getString(R.string.top_rated_movies));
+        movieListTitle = Constant.MOVIE_LIST_TITLE.TOP_RATED;
         controller.getTopRatedMovies();
         pr.setVisibility(View.VISIBLE);
     }
 
     private void setPopularMovies() {
         getSupportActionBar().setTitle(getString(R.string.popular_movies));
+        movieListTitle = Constant.MOVIE_LIST_TITLE.POPULAR;
         controller.getPopularMovies();
         pr.setVisibility(View.VISIBLE);
     }
 
     private void setFavoriteMovies() {
         getSupportActionBar().setTitle(getString(R.string.favorite_movies));
+        movieListTitle = Constant.MOVIE_LIST_TITLE.FAVORITE;
         controller.getFavoriteMovies(this);
         pr.setVisibility(View.VISIBLE);
     }
@@ -155,7 +168,6 @@ public class MainActivity extends BaseActivity {
         List<MovieObject> movieList = mAdapter.getData();
         String movieListJson = AppController.getInstance().gson().toJson(movieList);
         outState.putString(Constant.EXTRA_MOVIE_LIST, movieListJson);
-        outState.putInt(Constant.EXTRA_PAGE, 1);
-        outState.putString(Constant.EXTRA_TITLE, getTitle().toString());
+        outState.putString(Constant.EXTRA_TITLE, getSupportActionBar().getTitle().toString());
     }
 }

@@ -14,7 +14,11 @@ public class VideoHelper {
 
     public static void showingVideos(Context context, String videoUrl) {
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
-        context.startActivity(i);
+
+        // Verify that the intent will resolve to an activity
+        if (i.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(i);
+        }
     }
 
     public static String getYoutubeUrl(String key) {
